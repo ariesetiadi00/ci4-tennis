@@ -1,0 +1,11 @@
+img.profile {
+  width: 50px;
+}
+.table > tbody > tr > * {
+  vertical-align: middle;
+}
+img.back {
+  margin-top: 3px;
+  width: 35px;
+  height: 35px;
+}
