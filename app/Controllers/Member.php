@@ -20,7 +20,6 @@ class Member extends BaseController
             'title' => 'Daftar Member',
             'member' => $this->memberModel->getMember()
         ];
-
         return view('member/index', $data);
     }
 
@@ -59,8 +58,6 @@ class Member extends BaseController
             ]
         ])) {
             // Validation
-            // $validation = \Config\Services::validation();
-            // return redirect()->to('/member/create')->withInput()->with('validation', $validation);
             return redirect()->to('/member/create')->withInput();
         }
 
@@ -71,6 +68,7 @@ class Member extends BaseController
          * $namaFoto = $foto->getRandomName();
          * $foto->move('img', $namaFoto);
          */
+
         if ($foto->getError() == 4) {
             $namaFoto = 'default.png';
         } else {
@@ -88,9 +86,7 @@ class Member extends BaseController
             'tgl_lahir' => $this->request->getVar('tgl_lahir'),
             'tgl_join' => date('Y-m-d')
         ]);
-
         session()->setFlashData('pesan', 'Member Baru Berhasil Ditambahkan');
-
         return redirect()->to('/member/index');
     }
 
@@ -102,7 +98,6 @@ class Member extends BaseController
         if ($member['foto'] != 'default.png') {
             unlink('img/' . $member['foto']);
         }
-
         $this->memberModel->delete($id);
         session()->setFlashData('pesan', 'Member Berhasil Dihapus');
         return redirect()->to('/member/index');
@@ -112,24 +107,55 @@ class Member extends BaseController
     {
         $data = [
             'title' => 'Edit Member',
-            'member' => $this->memberModel->find($id)
+            'member' => $this->memberModel->find($id),
+            'validation' => \Config\Services::validation()
         ];
         return view('member/edit', $data);
     }
 
     public function update($id)
     {
+        // Validate Foto
+        if (!$this->validate([
+            'foto' => [
+                'rules' => 'is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]|max_size[foto,1024]',
+                'errors' => [
+                    'is_image' => 'Yang Anda Pilih Bukan Gambar',
+                    'mime_in' => 'Yang Anda Pilih Bukan Gambar',
+                    'max_size' => 'Ukuran Foto Terlalu Besar'
+                ]
+            ]
+        ])) {
+            // Validation
+            return redirect()->to('/member/edit/' . $id)->withInput();
+        }
+
+        // Ambil File Foto Baru
+        $fotoBaru = $this->request->getFile('foto');
+        // Ambil Nama Foto Lama
+        $fotoLama = $this->request->getVar('fotoLama');
+
+        // Jika tidak upload, pakai gambar lama
+        if ($fotoBaru->getError() == 4) {
+            $namaFoto = $fotoLama;
+        } else {
+            $namaFoto = $fotoBaru->getName();
+            $fotoBaru->move('img', $namaFoto);
+            if ($fotoLama != 'default.png') {
+                unlink('img/' . $fotoLama);
+            }
+        }
+
+        // Save Data
         $this->memberModel->save([
             'id' => $id,
             'nama' => $this->request->getVar('nama'),
-            'foto' => $this->request->getVar('foto'),
+            'foto' => $namaFoto,
             'slug' => url_title($this->request->getVar('nama'), '-', true),
             'tmp_lahir' => $this->request->getVar('tmp_lahir'),
             'tgl_lahir' => $this->request->getVar('tgl_lahir'),
         ]);
-
         session()->setFlashData('pesan', 'Member Berhasil Diubah');
-
         return redirect()->to('/member/index');
     }
 }
