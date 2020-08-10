@@ -1,5 +1,12 @@
-img.profile {
-  width: 50px;
+img.foto {
+  width: 60px;
+  border-radius: 10px;
+}
+img.foto-preview {
+  width: 240px;
+  border-radius: 10px;
+  vertical-align: middle;
+  margin: 0 auto;
 }
 .table > tbody > tr > * {
   vertical-align: middle;

@@ -28,7 +28,7 @@
                     <?php foreach ($member as $m) : ?>
                         <tr>
                             <th scope="row"> <?= $i++; ?> </th>
-                            <td><img class="profile" src="/img/<?= $m['foto']; ?>" alt="profile"></td>
+                            <td><img class="foto" src="/img/<?= $m['foto']; ?>" alt="profile"></td>
                             <td> <?= $m['nama']; ?> </td>
                             <td><a href="/member/<?= $m['id']; ?>/<?= $m['slug']; ?>" class="btn btn-success">Detail</a></td>
                         </tr>
