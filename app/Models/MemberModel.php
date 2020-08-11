@@ -18,4 +18,12 @@ class MemberModel extends Model
             return $this->where(['slug' => $slug])->first();
         }
     }
+    public function search($key)
+    {
+        return $this->table('t_members')->like('nama', $key)->get();
+        // $builder = $this->table('t_members');
+        // $builder->like('nama', $key);
+        // return $builder;
+        // return $this->like('nama', $key);
+    }
 }

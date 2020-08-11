@@ -16,9 +16,17 @@ class Member extends BaseController
 
     public function index()
     {
+        $key = $this->request->getVar('key');
+        if ($key) {
+            $member = $this->memberModel->search($key)->getResultArray();
+            // $member = $this->memberModel->like('nama', $key);
+        } else {
+            $member = $this->memberModel->findAll();
+        }
+
         $data = [
             'title' => 'Daftar Member',
-            'member' => $this->memberModel->getMember()
+            'member' => $member
         ];
         return view('member/index', $data);
     }

@@ -23,6 +23,11 @@
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
+                <?php
+                if ($member == null) {
+                    echo "Member Tidak Ditemukan";
+                }
+                ?>
                 <tbody>
                     <?php $i = 1; ?>
                     <?php foreach ($member as $m) : ?>
