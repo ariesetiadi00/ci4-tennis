@@ -26,7 +26,8 @@ class Member extends BaseController
 
         $data = [
             'title' => 'Daftar Member',
-            'member' => $member
+            'member' => $member,
+            'key' => $key
         ];
         return view('member/index', $data);
     }

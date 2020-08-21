@@ -11,6 +11,9 @@ img.foto-preview {
 .table > tbody > tr > * {
   vertical-align: middle;
 }
+.middle {
+  vertical-align: middle;
+}
 img.back {
   margin-top: 3px;
   width: 35px;

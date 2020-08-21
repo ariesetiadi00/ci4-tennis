@@ -23,11 +23,6 @@
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
-                <?php
-                if ($member == null) {
-                    echo "Member Tidak Ditemukan";
-                }
-                ?>
                 <tbody>
                     <?php $i = 1; ?>
                     <?php foreach ($member as $m) : ?>
@@ -40,6 +35,11 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php
+            if ($member == null) {
+                echo $this->include('errors/empty');
+            }
+            ?>
         </div>
     </div>
 </div>

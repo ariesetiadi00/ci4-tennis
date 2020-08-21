@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 
 // Root Routes
-$routes->get('/', 'Pages::index');
+$routes->get('/', 'Member::index');
 
 // Member Routes
 $routes->post('/member/save', 'Member::save');
